@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Become a Mentor — EnHouse</title>
+  <meta name="description" content="Apply to become an EnHouse mentor. Share your expertise in digital safety and help protect vulnerable youth from online threats." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { inter: ['Inter', 'sans-serif'] },
+          colors: {
+            slate: { 50:'#f8fafc', 100:'#f1f5f9', 200:'#e2e8f0', 300:'#cbd5e1', 400:'#94a3b8', 500:'#64748b', 600:'#475569', 700:'#334155', 800:'#1e293b', 900:'#0f172a' },
+            rose: { 50:'#FFF0F5', 100:'#FFE4ED', 200:'#FFB3D1', 300:'#FF80B2', 400:'#FF4D94', 500:'#FF1A75', 600:'#E6005C', 700:'#CC0052', 800:'#99003D', 900:'#660029' },
+            amber: { 400: '#fbbf24', 500: '#f59e0b' },
+            sky: { 50:'#E6F7FC', 100:'#CCF0F9', 200:'#99E2F3', 300:'#66D3ED', 400:'#33C1E8', 500:'#00B2E2', 600:'#00A0CB', 700:'#007B9C', 800:'#00566E', 900:'#003140' }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .section-view { display: none; }
+    .section-view.active { display: block; animation: fadeIn .5s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .breathe { animation: breathe 4s ease-in-out infinite; }
+    @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+
+    .blob { border-radius: 42% 58% 61% 39% / 45% 41% 59% 55%; }
+
+    .card-hover { transition: transform .35s ease, box-shadow .35s ease; }
+    .card-hover:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -14px rgba(15,23,42,0.12); }
+
+    .btn-press { transition: transform .15s ease, box-shadow .25s ease, background-color .25s ease; }
+    .btn-press:active { transform: scale(0.96); }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+
+    .signup-blob-1 { position: absolute; width: 450px; height: 450px; background: rgba(230,0,92,0.15); filter: blur(80px); top: 10%; left: -10%; }
+    .signup-blob-2 { position: absolute; width: 350px; height: 350px; background: rgba(0,178,226,0.15); filter: blur(60px); bottom: 5%; right: -5%; }
+    
+    .upload-zone { border: 2px dashed #cbd5e1; transition: border-color .25s ease, background-color .25s ease; }
+    .upload-zone:hover, .upload-zone.dragover { border-color: #00B2E2; background-color: rgba(0,178,226,0.03); }
+    .form-input { transition: border-color .25s ease, box-shadow .25s ease; }
+    .form-input:focus { border-color: #00B2E2; box-shadow: 0 0 0 3px rgba(0,178,226,0.12); }
+    .benefit-card { transition: transform .3s ease; }
+    .benefit-card:hover { transform: translateX(6px); }
+  </style>
+</head>
+<body class="antialiased bg-white min-h-screen">
+
+  <!-- Back to Home -->
+  <a href="index.html" class="btn-press fixed top-5 left-5 z-20 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-sm border border-slate-200 text-slate-700 text-sm font-medium hover:bg-slate-50 transition">
+    <i class="fa-solid fa-arrow-left text-xs text-sky-500"></i> <span class="auto-translate">Back to Home</span>
+  </a>
+
+  <div class="min-h-screen flex flex-col lg:flex-row">
+
+    <!-- ===== LEFT COLUMN: Inspiration ===== -->
+    <div class="bg-slate-50 relative overflow-hidden lg:w-5/12 flex items-center justify-center p-8 sm:p-12 lg:p-16 border-r border-slate-200">
+      <div class="signup-blob-1 blob shadow-xl shadow-sky-100/50"></div>
+      <div class="signup-blob-2 blob shadow-xl shadow-sky-100/50"></div>
+
+      <div class="relative z-10 max-w-md">
+        <!-- Logo -->
+        <div class="flex items-center gap-2 mb-10">
+
+          <span class="text-2xl font-extrabold tracking-tight"><span class="text-[#22c55e]">E</span><span class="text-[#f97316]">n</span><span class="text-[#f59e0b]">H</span><span class="text-[#2563eb]">o</span><span class="text-[#14b8a6]">u</span><span class="text-[#e11d48]">s</span><span class="text-[#0ea5e9]">e</span></span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight mb-6">
+          <span class="text-[#f97316] auto-translate block mb-2">Turn Years of Experience</span>
+          <span class="text-[#e11d48] auto-translate block">into Moments of Impact.</span>
+        </h1>
+        <p class="text-slate-700 text-sm leading-relaxed mb-10 auto-translate">
+          Your expertise can change a young life. Join our network of verified mentors and help protect the most vulnerable members of the digital generation.
+        </p>
+
+        <!-- Benefits -->
+        <div class="space-y-4">
+          <div class="benefit-card flex items-start gap-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center flex-shrink-0">
+              <i class="fa-solid fa-lightbulb text-amber-500 text-sm"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 auto-translate">Share Your Expertise</h3>
+              <p class="text-xs text-slate-500 mt-0.5 auto-translate">Transform hard-won knowledge into actionable guidance for young minds.</p>
+            </div>
+          </div>
+          <div class="benefit-card flex items-start gap-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <div class="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center flex-shrink-0">
+              <i class="fa-solid fa-hand-holding-heart text-rose-600 text-sm"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 auto-translate">Guide Vulnerable Youth</h3>
+              <p class="text-xs text-slate-500 mt-0.5 auto-translate">Help orphans and at-risk children navigate the digital world with confidence.</p>
+            </div>
+          </div>
+          <div class="benefit-card flex items-start gap-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <div class="w-10 h-10 rounded-full bg-sky-50 flex items-center justify-center flex-shrink-0">
+              <i class="fa-solid fa-globe text-sky-500 text-sm"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 auto-translate">Build a Safer Digital Space</h3>
+              <p class="text-xs text-slate-500 mt-0.5 auto-translate">Be part of a movement creating real impact globally.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust stat -->
+        <div class="mt-10 flex items-center gap-3">
+          <div class="flex -space-x-2">
+            <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-700 text-[10px] font-bold border-2 border-white">AN</div>
+            <div class="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center text-rose-700 text-[10px] font-bold border-2 border-white">MR</div>
+            <div class="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center text-sky-700 text-[10px] font-bold border-2 border-white">SR</div>
+          </div>
+          <p class="text-xs text-slate-500"><strong class="text-slate-900 auto-translate">50+ mentors</strong> <span class="auto-translate">already making a difference.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== RIGHT COLUMN: Application Form ===== -->
+    <div class="lg:w-7/12 flex items-center justify-center p-6 sm:p-10 lg:p-16">
+      <div class="w-full max-w-lg">
+        <div class="text-center lg:text-left mb-8">
+          <span class="inline-block px-4 py-1.5 rounded-full bg-sky-50 border border-sky-100 text-sky-600 text-xs font-bold uppercase tracking-wider mb-4 shadow-sm auto-translate">Mentor Application</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+            <span class="auto-translate">Apply to</span> <span class="text-rose-600 auto-translate">Become a Mentor</span>
+          </h2>
+          <p class="mt-2 text-sm text-slate-500 auto-translate">Complete the form below. Our team will review your application within 48 hours.</p>
+        </div>
+
+        <form id="mentorApplyForm" class="space-y-5">
+          <!-- Full Name -->
+          <div>
+            <label for="fullName" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 auto-translate">Full Name</label>
+            <div class="relative">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sky-500"><i class="fa-solid fa-user text-sm"></i></span>
+              <input id="fullName" type="text" placeholder="Enter your full name" required
+                class="form-input w-full pl-10 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white text-sm text-slate-900 placeholder-slate-400 focus:outline-none" />
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label for="applyEmail" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 auto-translate">Email Address</label>
+            <div class="relative">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sky-500"><i class="fa-solid fa-envelope text-sm"></i></span>
+              <input id="applyEmail" type="email" placeholder="your.email@example.com" required
+                class="form-input w-full pl-10 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white text-sm text-slate-900 placeholder-slate-400 focus:outline-none" />
+            </div>
+          </div>
+
+          <!-- Current Job -->
+          <div>
+            <label for="currentJob" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 auto-translate">Current Job / Role</label>
+            <div class="relative">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sky-500"><i class="fa-solid fa-briefcase text-sm"></i></span>
+              <input id="currentJob" type="text" placeholder="e.g. Cybersecurity Analyst, Teacher" required
+                class="form-input w-full pl-10 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white text-sm text-slate-900 placeholder-slate-400 focus:outline-none" />
+            </div>
+          </div>
+
+          <!-- LinkedIn -->
+          <div>
+            <label for="linkedinUrl" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 auto-translate">LinkedIn Profile URL</label>
+            <div class="relative">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sky-500"><i class="fa-brands fa-linkedin text-sm"></i></span>
+              <input id="linkedinUrl" type="url" placeholder="https://linkedin.com/in/yourprofile"
+                class="form-input w-full pl-10 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white text-sm text-slate-900 placeholder-slate-400 focus:outline-none" />
+            </div>
+          </div>
+
+          <!-- Expertise Dropdown -->
+          <div>
+            <label for="expertise" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 auto-translate">MIL Expertise Area</label>
+            <div class="relative">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sky-500"><i class="fa-solid fa-graduation-cap text-sm"></i></span>
+              <select id="expertise" required
+                class="form-input w-full pl-10 pr-10 py-3.5 rounded-xl border border-slate-200 bg-white text-sm text-slate-900 focus:outline-none appearance-none"
+                style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%230f172a' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E&quot;); background-repeat: no-repeat; background-position: right 14px center;">
+                <option value="" class="auto-translate">Select your expertise</option>
+                <option value="Deepfake & AI Detection" class="auto-translate">Deepfake & AI Detection</option>
+                <option value="Cyberbullying Defense" class="auto-translate">Cyberbullying Defense</option>
+                <option value="Fact-checking & Source Verification" class="auto-translate">Fact-checking & Source Verification</option>
+                <option value="Emotional Well-being & Screen Balance" class="auto-translate">Emotional Well-being & Screen Balance</option>
+                <option value="Digital Privacy & Footprint" class="auto-translate">Digital Privacy & Footprint</option>
+                <option value="Spotting Manipulators" class="auto-translate">Spotting Manipulators</option>
+                <option value="Ethical AI Use" class="auto-translate">Ethical AI Use</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- File Upload -->
+          <div>
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 auto-translate">Upload ID / Passport for Verification</label>
+            <div id="uploadZone" class="upload-zone rounded-xl p-8 text-center cursor-pointer bg-slate-50">
+              <input id="fileUpload" type="file" accept="image/*,.pdf" class="hidden" />
+              <div id="uploadPlaceholder">
+                <div class="w-12 h-12 rounded-2xl bg-white shadow-sm border border-slate-200 flex items-center justify-center mx-auto mb-3">
+                  <i class="fa-solid fa-cloud-arrow-up text-sky-500 text-lg"></i>
+                </div>
+                <p class="text-sm font-semibold text-slate-700 auto-translate">Click to upload or drag & drop</p>
+                <p class="text-xs text-slate-500 mt-1 auto-translate">PNG, JPG or PDF (max. 5MB)</p>
+              </div>
+              <div id="uploadSuccess" class="hidden">
+                <div class="w-12 h-12 rounded-2xl bg-green-50 shadow-sm border border-green-100 flex items-center justify-center mx-auto mb-3">
+                  <i class="fa-solid fa-circle-check text-green-500 text-lg"></i>
+                </div>
+                <p id="fileName" class="text-sm font-semibold text-green-700"></p>
+                <p class="text-xs text-green-600/70 mt-1 auto-translate">File selected successfully</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn-press breathe w-full py-4 rounded-full bg-rose-600 text-white text-sm font-bold shadow-md hover:bg-rose-700 transition-all mt-4">
+            <span class="auto-translate"><i class="fa-solid fa-paper-plane mr-2"></i> Submit Application</span>
+          </button>
+        </form>
+
+        <p class="mt-8 text-center text-xs text-slate-400 auto-translate">
+          &copy; 2026 EnHouse. Empowering the Next Generation's Digital Journey. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== JAVASCRIPT ========== -->
+  <script>
+    // File Upload
+    const uploadZone = document.getElementById('uploadZone');
+    const fileInput = document.getElementById('fileUpload');
+    const placeholder = document.getElementById('uploadPlaceholder');
+    const successState = document.getElementById('uploadSuccess');
+    const fileNameEl = document.getElementById('fileName');
+
+    uploadZone.addEventListener('click', () => fileInput.click());
+
+    uploadZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadZone.classList.add('dragover');
+    });
+
+    uploadZone.addEventListener('dragleave', () => {
+      uploadZone.classList.remove('dragover');
+    });
+
+    uploadZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadZone.classList.remove('dragover');
+      if (e.dataTransfer.files.length > 0) {
+        fileInput.files = e.dataTransfer.files;
+        showFileSelected(e.dataTransfer.files[0].name);
+      }
+    });
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length > 0) {
+        showFileSelected(fileInput.files[0].name);
+      }
+    });
+
+    function showFileSelected(name) {
+      placeholder.classList.add('hidden');
+      successState.classList.remove('hidden');
+      fileNameEl.textContent = name;
+    }
+
+    // Form Submit
+    document.getElementById('mentorApplyForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const fullName = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('applyEmail').value.trim();
+      const currentJob = document.getElementById('currentJob').value.trim();
+      const expertise = document.getElementById('expertise').value;
+
+      if (!fullName || !email || !currentJob || !expertise) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+
+      alert('🎉 Your application has been submitted for verification review! Our team will contact you within 48 hours.');
+      window.location.href = 'index.html';
+    });
+  </script>
+
+</body>
+</html>

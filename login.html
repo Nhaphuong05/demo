@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — EnHouse Secure Access</title>
+  <meta name="description" content="Sign in to EnHouse securely. Mentees use anonymous nicknames. Mentors login with verified credentials." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { inter: ['Inter', 'sans-serif'] },
+          colors: {
+            slate: { 50:'#f8fafc', 100:'#f1f5f9', 200:'#e2e8f0', 300:'#cbd5e1', 400:'#94a3b8', 500:'#64748b', 600:'#475569', 700:'#334155', 800:'#1e293b', 900:'#0f172a' },
+            rose: { 50:'#FFF0F5', 100:'#FFE4ED', 200:'#FFB3D1', 300:'#FF80B2', 400:'#FF4D94', 500:'#FF1A75', 600:'#E6005C', 700:'#CC0052', 800:'#99003D', 900:'#660029' },
+            amber: { 400: '#fbbf24', 500: '#f59e0b' },
+            sky: { 50:'#E6F7FC', 100:'#CCF0F9', 200:'#99E2F3', 300:'#66D3ED', 400:'#33C1E8', 500:'#00B2E2', 600:'#00A0CB', 700:'#007B9C', 800:'#00566E', 900:'#003140' }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .section-view { display: none; }
+    .section-view.active { display: block; animation: fadeIn .5s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .breathe { animation: breathe 4s ease-in-out infinite; }
+    @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+
+    .blob { border-radius: 42% 58% 61% 39% / 45% 41% 59% 55%; }
+
+    .card-hover { transition: transform .35s ease, box-shadow .35s ease; }
+    .card-hover:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -14px rgba(15,23,42,0.12); }
+
+    .btn-press { transition: transform .15s ease, box-shadow .25s ease, background-color .25s ease; }
+    .btn-press:active { transform: scale(0.96); }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+
+    .login-blob-1 { position: absolute; width: 500px; height: 500px; background: rgba(230,0,92,0.06); filter: blur(80px); top: -100px; left: -100px; }
+    .login-blob-2 { position: absolute; width: 400px; height: 400px; background: rgba(0,178,226,0.06); filter: blur(60px); bottom: -80px; right: -80px; }
+    .tab-indicator { transition: transform .3s cubic-bezier(.4,0,.2,1), width .3s ease; }
+    .login-input { transition: border-color .25s ease, box-shadow .25s ease; }
+    .login-input:focus { border-color: #00B2E2; box-shadow: 0 0 0 3px rgba(0,178,226,0.12); }
+  </style>
+</head>
+<body class="antialiased bg-slate-50 min-h-screen">
+
+  <div class="relative overflow-hidden flex items-center justify-center p-4 min-h-screen">
+    <!-- Decorative Blobs -->
+    <div class="login-blob-1 blob"></div>
+    <div class="login-blob-2 blob"></div>
+
+    <!-- Back to Home -->
+    <a href="index.html" class="btn-press fixed top-5 left-5 z-20 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-sm border border-slate-200 text-slate-700 text-sm font-medium hover:bg-slate-50 transition">
+      <i class="fa-solid fa-arrow-left text-xs text-sky-500"></i> Back to Home
+    </a>
+
+    <!-- Login Card -->
+    <div class="relative z-10 w-full max-w-md">
+      <!-- Logo -->
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center gap-2">
+
+          <span class="text-3xl font-extrabold tracking-tight"><span class="text-[#22c55e]">E</span><span class="text-[#f97316]">n</span><span class="text-[#f59e0b]">H</span><span class="text-[#2563eb]">o</span><span class="text-[#14b8a6]">u</span><span class="text-[#e11d48]">s</span><span class="text-[#0ea5e9]">e</span></span>
+        </div>
+        <p class="mt-3 text-sm text-slate-500 font-medium auto-translate">Secure. Anonymous. Human.</p>
+      </div>
+
+      <div class="card-hover bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+        <!-- Tabs -->
+        <div class="relative flex border-b border-slate-100">
+          <button id="tabMentee" class="login-tab flex-1 py-4 text-sm font-bold text-rose-600 transition auto-translate" data-tab="mentee">
+            <i class="fa-solid fa-child-reaching mr-1.5 text-sky-500"></i> I am a Mentee
+          </button>
+          <button id="tabMentor" class="login-tab flex-1 py-4 text-sm font-bold text-slate-400 transition auto-translate" data-tab="mentor">
+            <i class="fa-solid fa-chalkboard-user mr-1.5"></i> I am a Mentor
+          </button>
+          <div id="tabIndicator" class="tab-indicator absolute bottom-0 left-0 w-1/2 h-[3px] bg-rose-600 rounded-t-full"></div>
+        </div>
+
+        <!-- Mentee Form -->
+        <div id="formMentee" class="section-view active">
+          <div class="p-6 sm:p-8">
+            <div class="text-center mb-6">
+              <div class="w-14 h-14 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-user-secret text-rose-600 text-xl"></i>
+              </div>
+              <h2 class="text-xl font-extrabold text-slate-900 auto-translate">Anonymous Access</h2>
+              <p class="text-xs text-slate-500 mt-1 auto-translate">No personal data required — stay safe, stay anonymous.</p>
+            </div>
+
+            <!-- Sign Up / Log In Sub-Tabs -->
+            <div class="flex rounded-full bg-slate-50 p-1 mb-6 border border-slate-100">
+              <button id="menteeSignUpTab" type="button" class="mentee-subtab flex-1 py-2.5 rounded-full text-xs font-bold transition-all bg-white text-rose-600 shadow-sm border border-slate-200 auto-translate" data-mode="signup">
+                <i class="fa-solid fa-user-plus mr-1"></i> Sign Up
+              </button>
+              <button id="menteeLogInTab" type="button" class="mentee-subtab flex-1 py-2.5 rounded-full text-xs font-bold transition-all text-slate-400 border border-transparent auto-translate" data-mode="login">
+                <i class="fa-solid fa-right-to-bracket mr-1"></i> Log In
+              </button>
+            </div>
+
+            <form id="menteeForm" class="space-y-4">
+              <div>
+                <label for="nickname" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 auto-translate">Nickname</label>
+                <div class="relative">
+                  <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sky-500"><i class="fa-solid fa-at text-sm"></i></span>
+                  <input id="nickname" type="text" placeholder="Choose a unique nickname" required
+                    class="login-input w-full pl-10 pr-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-900 placeholder-slate-400 focus:outline-none" />
+                </div>
+              </div>
+              <div>
+                <label for="pinCode" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 auto-translate">PIN Code</label>
+                <div class="relative">
+                  <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sky-500"><i class="fa-solid fa-lock text-sm"></i></span>
+                  <input id="pinCode" type="password" placeholder="Create a 4-6 digit PIN" required maxlength="6" pattern="[0-9]{4,6}"
+                    class="login-input w-full pl-10 pr-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-900 placeholder-slate-400 focus:outline-none" />
+                </div>
+              </div>
+              <button id="menteeSubmitBtn" type="submit" class="btn-press w-full py-4 rounded-full bg-rose-600 text-white text-sm font-bold shadow-md hover:bg-rose-700 transition-all mt-2">
+                <span class="auto-translate"><i class="fa-solid fa-user-plus mr-1.5"></i> Create Account Securely</span>
+              </button>
+            </form>
+
+            <div class="mt-6 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+              <p class="text-xs text-slate-500 text-center leading-relaxed font-medium auto-translate">
+                <i class="fa-solid fa-shield-halved mr-1 text-sky-500"></i> Privacy by Design — We never store your real identity. Your nickname and PIN stay on your device only.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mentor Form -->
+        <div id="formMentor" class="section-view">
+          <div class="p-6 sm:p-8">
+            <div class="text-center mb-6">
+              <div class="w-14 h-14 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-chalkboard-user text-rose-600 text-xl"></i>
+              </div>
+              <h2 class="text-xl font-extrabold text-slate-900 auto-translate">Mentor Portal</h2>
+              <p class="text-xs text-slate-500 mt-1 auto-translate">Access your verified mentor dashboard.</p>
+            </div>
+
+            <form id="mentorForm" class="space-y-4">
+              <div>
+                <label for="mentorEmail" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 auto-translate">Email</label>
+                <div class="relative">
+                  <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sky-500"><i class="fa-solid fa-envelope text-sm"></i></span>
+                  <input id="mentorEmail" type="email" placeholder="your.email@example.com" required
+                    class="login-input w-full pl-10 pr-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-900 placeholder-slate-400 focus:outline-none" />
+                </div>
+              </div>
+              <div>
+                <label for="mentorPassword" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 auto-translate">Password</label>
+                <div class="relative">
+                  <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sky-500"><i class="fa-solid fa-key text-sm"></i></span>
+                  <input id="mentorPassword" type="password" placeholder="Enter your password" required
+                    class="login-input w-full pl-10 pr-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-900 placeholder-slate-400 focus:outline-none" />
+                </div>
+              </div>
+              <button type="submit" class="btn-press w-full py-4 rounded-full bg-rose-600 text-white text-sm font-bold shadow-md hover:bg-rose-700 transition-all mt-2">
+                <span class="auto-translate"><i class="fa-solid fa-right-to-bracket mr-1.5"></i> Login</span>
+              </button>
+            </form>
+
+            <p class="mt-6 text-center text-sm text-slate-500">
+              <span class="auto-translate">Not a mentor yet?</span> <a href="mentor-signup.html" class="text-sky-500 font-bold hover:underline auto-translate">Apply now</a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom text -->
+      <p class="text-center text-xs text-slate-400 mt-8 auto-translate">
+        &copy; 2026 EnHouse. Empowering the Next Generation's Digital Journey. All rights reserved.
+      </p>
+    </div>
+  </div>
+
+  <!-- ========== JAVASCRIPT ========== -->
+  <script>
+    // ===== Mentee Sub-Tab State =====
+    let menteeMode = 'signup'; // 'signup' or 'login'
+
+    const menteeSubTabs = document.querySelectorAll('.mentee-subtab');
+    const menteeSubmitBtn = document.getElementById('menteeSubmitBtn');
+    const nicknameInput = document.getElementById('nickname');
+    const pinInput = document.getElementById('pinCode');
+
+    function updateMenteeMode(mode) {
+      menteeMode = mode;
+      menteeSubTabs.forEach(t => {
+        t.classList.remove('bg-white', 'text-rose-600', 'shadow-sm', 'border-slate-200');
+        t.classList.add('text-slate-400', 'border-transparent');
+      });
+      const activeTab = document.querySelector(`.mentee-subtab[data-mode="${mode}"]`);
+      activeTab.classList.add('bg-white', 'text-rose-600', 'shadow-sm', 'border-slate-200');
+      activeTab.classList.remove('text-slate-400', 'border-transparent');
+
+      if (mode === 'signup') {
+        menteeSubmitBtn.innerHTML = '<span class="auto-translate"><i class="fa-solid fa-user-plus mr-1.5"></i> Create Account Securely</span>';
+        nicknameInput.placeholder = 'Choose a unique nickname';
+        pinInput.placeholder = 'Create a 4-6 digit PIN';
+      } else {
+        menteeSubmitBtn.innerHTML = '<span class="auto-translate"><i class="fa-solid fa-right-to-bracket mr-1.5"></i> Sign In Securely</span>';
+        nicknameInput.placeholder = 'Enter your nickname';
+        pinInput.placeholder = 'Enter your PIN';
+      }
+    }
+
+    menteeSubTabs.forEach(tab => {
+      tab.addEventListener('click', () => updateMenteeMode(tab.dataset.mode));
+    });
+
+    // ===== Main Tab Switching (Mentee / Mentor) =====
+    const tabs = document.querySelectorAll('.login-tab');
+    const indicator = document.getElementById('tabIndicator');
+    const formMentee = document.getElementById('formMentee');
+    const formMentor = document.getElementById('formMentor');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+
+        tabs.forEach(t => {
+          t.classList.remove('text-rose-600');
+          t.classList.add('text-slate-400');
+          const icon = t.querySelector('i');
+          if (icon) icon.classList.remove('text-sky-500');
+        });
+        
+        tab.classList.remove('text-slate-400');
+        tab.classList.add('text-rose-600');
+        const activeIcon = tab.querySelector('i');
+        if (activeIcon) activeIcon.classList.add('text-sky-500');
+
+        if (target === 'mentee') {
+          indicator.style.transform = 'translateX(0)';
+          formMentee.classList.add('active');
+          formMentor.classList.remove('active');
+        } else {
+          indicator.style.transform = 'translateX(100%)';
+          formMentor.classList.add('active');
+          formMentee.classList.remove('active');
+        }
+      });
+    });
+
+    // ===== Mentee Form Submit (Sign Up / Log In) =====
+    document.getElementById('menteeForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nickname = nicknameInput.value.trim();
+      const pin = pinInput.value.trim();
+
+      if (!nickname || !pin) {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      const storageKey = 'eh_user_' + nickname;
+
+      if (menteeMode === 'signup') {
+        if (localStorage.getItem(storageKey) !== null) {
+          alert('⚠️ Nickname already taken! Please choose another one.');
+          return;
+        }
+        localStorage.setItem(storageKey, pin);
+        localStorage.setItem('currentUser', nickname);
+        localStorage.setItem('userLoggedIn', 'true');
+        localStorage.setItem('userRole', 'mentee');
+        alert('🎉 Account created securely! Welcome to EnHouse.');
+        window.location.href = 'index.html';
+      } else {
+        const storedPin = localStorage.getItem(storageKey);
+        if (storedPin === null || storedPin !== pin) {
+          alert('❌ Invalid Nickname or PIN!');
+          return;
+        }
+        localStorage.setItem('currentUser', nickname);
+        localStorage.setItem('userLoggedIn', 'true');
+        localStorage.setItem('userRole', 'mentee');
+        window.location.href = 'index.html';
+      }
+    });
+
+    // ===== Mentor Form Submit =====
+    document.getElementById('mentorForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('mentorEmail').value.trim();
+      const password = document.getElementById('mentorPassword').value.trim();
+
+      if (!email || !password) {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      localStorage.setItem('userLoggedIn', 'true');
+      localStorage.setItem('userRole', 'mentor');
+      localStorage.setItem('userEmail', email);
+      window.location.href = 'index.html';
+    });
+  </script>
+
+</body>
+</html>

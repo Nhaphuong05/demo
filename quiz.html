@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EnHouse — Spot the Deepfake</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { inter: ['Inter', 'sans-serif'] },
+          colors: {
+            slate: { 50:'#f8fafc', 100:'#f1f5f9', 200:'#e2e8f0', 300:'#cbd5e1', 400:'#94a3b8', 500:'#64748b', 600:'#475569', 700:'#334155', 800:'#1e293b', 900:'#0f172a' },
+            rose: { 50:'#FFF0F5', 100:'#FFE4ED', 200:'#FFB3D1', 300:'#FF80B2', 400:'#FF4D94', 500:'#FF1A75', 600:'#E6005C', 700:'#CC0052', 800:'#99003D', 900:'#660029' },
+            amber: { 400: '#fbbf24', 500: '#f59e0b' },
+            sky: { 50:'#E6F7FC', 100:'#CCF0F9', 200:'#99E2F3', 300:'#66D3ED', 400:'#33C1E8', 500:'#00B2E2', 600:'#00A0CB', 700:'#007B9C', 800:'#00566E', 900:'#003140' }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .blob { border-radius: 42% 58% 61% 39% / 45% 41% 59% 55%; }
+    .btn-press { transition: transform .15s ease, box-shadow .25s ease, background-color .25s ease; }
+    .btn-press:active { transform: scale(0.96); box-shadow: 0 0 0 0 rgba(0,0,0,0); }
+    .fade-in { animation: fadeIn 0.4s ease forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased">
+  
+  <!-- Header / Navigation (Synchronized) -->
+  <header class="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2 group">
+        <span class="text-2xl font-extrabold tracking-tight"><span class="text-[#22c55e]">E</span><span class="text-[#f97316]">n</span><span class="text-[#f59e0b]">H</span><span class="text-[#2563eb]">o</span><span class="text-[#14b8a6]">u</span><span class="text-[#e11d48]">s</span><span class="text-[#0ea5e9]">e</span></span>
+      </a>
+      <a href="index.html" class="nav-link text-sm font-semibold text-slate-500 hover:text-slate-900 transition auto-translate"><i class="fa-solid fa-arrow-left mr-1"></i> Back to Home</a>
+    </div>
+  </header>
+
+  <!-- Add padding to main to account for fixed header -->
+  <div class="pt-16 flex-1 flex flex-col">
+
+  <!-- Main Game Container -->
+  <main class="flex-1 flex flex-col items-center justify-center p-4 py-10">
+    <div class="w-full max-w-2xl">
+      
+      <!-- Multi-colored Title -->
+      <div class="text-center mb-8">
+        <h1 class="text-4xl md:text-5xl font-black mb-3">
+          <span class="text-slate-900 auto-translate">Spot</span>
+          <span class="text-rose-600 auto-translate">the</span>
+          <span class="text-sky-500 auto-translate">Deepfake</span>
+          <span class="text-amber-500"><i class="fa-solid fa-magnifying-glass"></i></span>
+        </h1>
+        <p class="text-slate-500 text-lg font-medium auto-translate">Test your digital literacy and media verification skills.</p>
+      </div>
+
+      <!-- Game Card -->
+      <div class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-slate-100 flex flex-col fade-in relative" id="gameCard">
+        
+        <!-- Progress Bar -->
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider auto-translate" id="progressText">Question 1 of 3</h2>
+          <div class="flex gap-1" id="progressDots">
+            <div class="w-8 h-2 rounded-full bg-slate-900 transition-all duration-300" id="dot1"></div>
+            <div class="w-2 h-2 rounded-full bg-slate-200 transition-all duration-300" id="dot2"></div>
+            <div class="w-2 h-2 rounded-full bg-slate-200 transition-all duration-300" id="dot3"></div>
+          </div>
+        </div>
+
+        <!-- Question Image -->
+        <div class="w-full h-64 md:h-80 bg-slate-100 blob overflow-hidden mb-6 shadow-inner relative flex items-center justify-center border-4 border-white">
+          <img src="" id="questionImage" class="w-full h-full object-cover" alt="Quiz Image">
+        </div>
+
+        <!-- Question Text -->
+        <h3 class="text-xl md:text-2xl font-bold text-slate-900 text-center mb-8 auto-translate" id="questionText">Loading question...</h3>
+
+        <!-- Choices -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2" id="choiceContainer">
+          <button class="btn-press py-4 rounded-full bg-sky-500 text-white text-base font-bold shadow-md hover:bg-sky-600 transition flex items-center justify-center gap-2" onclick="checkAnswer('real')">
+            <span>📸</span> <span class="auto-translate">Real Photo</span>
+          </button>
+          <button class="btn-press py-4 rounded-full bg-rose-600 text-white text-base font-bold shadow-md hover:bg-rose-700 transition flex items-center justify-center gap-2" onclick="checkAnswer('ai')">
+            <span>🤖</span> <span class="auto-translate">AI Generated</span>
+          </button>
+        </div>
+
+        <!-- Feedback Block (Hidden by default) -->
+        <div id="feedbackBlock" class="hidden mt-6 flex-col items-center bg-slate-50 p-6 rounded-2xl border border-slate-100 fade-in">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mb-3 shadow-sm" id="feedbackIconWrapper">
+            <i class="fa-solid fa-check" id="feedbackIcon"></i>
+          </div>
+          <h4 class="text-lg font-bold mb-2 auto-translate" id="feedbackTitle">Correct!</h4>
+          <p class="text-sm text-slate-600 text-center leading-relaxed mb-6 auto-translate" id="feedbackExplanation">Explanation goes here.</p>
+          <button id="nextBtn" class="btn-press px-8 py-3 rounded-full bg-slate-900 text-white text-sm font-bold shadow-md hover:bg-slate-800 transition flex items-center gap-2" onclick="nextQuestion()">
+            <span class="auto-translate" id="nextBtnText">Next Question</span> <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+        
+      </div>
+    </div>
+  </main>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        image: "https://images.unsplash.com/photo-1684369175836-829d6be89617?q=80&w=600&h=400&auto=format&fit=crop", 
+        type: "ai",
+        question: "Look closely at this image of a crowd. Is this a real photo?",
+        explanation: "🤖 It's AI Generated! If you look closely, the text on the signs in the background is completely misspelled and garbled. Also, check the shadows—they don't align with the light source. AI often struggles with these fine details and background edges!"
+      },
+      {
+        image: "https://images.unsplash.com/photo-1546182990-dffeafbe841d?q=80&w=600&h=400&auto=format&fit=crop", 
+        type: "real",
+        question: "What about this close-up of a rare animal in the wild? Real or Fake?",
+        explanation: "📸 Correct, it's Real! The depth of field, the natural lighting, and the animal's physical reactions match reality. However, a great MIL habit is to always use 'Reverse Image Search' (like Google Lens) to verify the original source of any wildlife photography."
+      },
+      {
+        image: "https://images.unsplash.com/photo-1678887015502-0c96c561b038?q=80&w=600&h=400&auto=format&fit=crop", 
+        type: "ai",
+        question: "This video screenshot shows a famous politician doing a bizarre dance. Real or Deepfake?",
+        explanation: "🤖 It's a Deepfake! Experts say you should watch the body movements carefully. AI deepfakes of public figures often have unnaturally smooth, slow movements or out-of-sync lip movements. Don't let 'The Agitator' villain trick you into sharing fake news!"
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+
+    const questionImage = document.getElementById('questionImage');
+    const questionText = document.getElementById('questionText');
+    const progressText = document.getElementById('progressText');
+    const choiceContainer = document.getElementById('choiceContainer');
+    const feedbackBlock = document.getElementById('feedbackBlock');
+    const feedbackTitle = document.getElementById('feedbackTitle');
+    const feedbackExplanation = document.getElementById('feedbackExplanation');
+    const feedbackIconWrapper = document.getElementById('feedbackIconWrapper');
+    const feedbackIcon = document.getElementById('feedbackIcon');
+    const nextBtn = document.getElementById('nextBtn');
+    const nextBtnText = document.getElementById('nextBtnText');
+
+    function loadQuestion() {
+      // Hide feedback, show choices
+      feedbackBlock.classList.add('hidden');
+      feedbackBlock.classList.remove('flex');
+      choiceContainer.style.display = 'grid';
+
+      // Load data
+      const q = quizData[currentQuestionIndex];
+      questionImage.src = q.image;
+      questionText.innerText = q.question;
+      progressText.innerText = `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
+
+      // Update dots
+      for(let i=1; i<=3; i++) {
+        const dot = document.getElementById(`dot${i}`);
+        if(i === currentQuestionIndex + 1) {
+          dot.className = "w-8 h-2 rounded-full bg-slate-900 transition-all duration-300";
+        } else {
+          dot.className = "w-2 h-2 rounded-full bg-slate-200 transition-all duration-300";
+        }
+      }
+    }
+
+    function checkAnswer(userChoice) {
+      const q = quizData[currentQuestionIndex];
+      const isCorrect = (userChoice === q.type);
+
+      // Hide choices, show feedback
+      choiceContainer.style.display = 'none';
+      feedbackBlock.classList.remove('hidden');
+      feedbackBlock.classList.add('flex');
+
+      if (isCorrect) {
+        feedbackTitle.innerText = "Awesome! Correct Answer.";
+        feedbackTitle.className = "text-lg font-black text-emerald-600 mb-2 auto-translate";
+        feedbackIconWrapper.className = "w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mb-3 shadow-sm bg-emerald-100 text-emerald-600";
+        feedbackIcon.className = "fa-solid fa-check";
+      } else {
+        feedbackTitle.innerText = "Oops! Not quite right.";
+        feedbackTitle.className = "text-lg font-black text-rose-600 mb-2 auto-translate";
+        feedbackIconWrapper.className = "w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mb-3 shadow-sm bg-rose-100 text-rose-600";
+        feedbackIcon.className = "fa-solid fa-xmark";
+      }
+
+      feedbackExplanation.innerText = q.explanation;
+
+      // Check if last question
+      if (currentQuestionIndex === quizData.length - 1) {
+        nextBtnText.innerText = "Book a Mentor to learn more!";
+        nextBtn.className = "btn-press px-8 py-3 rounded-full bg-rose-600 text-white text-sm font-bold shadow-md hover:bg-rose-700 transition flex items-center gap-2";
+      } else {
+        nextBtnText.innerText = "Next Question";
+        nextBtn.className = "btn-press px-8 py-3 rounded-full bg-slate-900 text-white text-sm font-bold shadow-md hover:bg-slate-800 transition flex items-center gap-2";
+      }
+    }
+
+    function nextQuestion() {
+      if (currentQuestionIndex === quizData.length - 1) {
+        window.location.href = "index.html#discover";
+      } else {
+        currentQuestionIndex++;
+        loadQuestion();
+      }
+    }
+
+    // Initialize game
+    window.addEventListener('DOMContentLoaded', loadQuestion);
+
+  </script>
+</body>
+</html>
