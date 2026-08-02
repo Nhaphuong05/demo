@@ -1,6 +1,5 @@
 # Yêu cầu Kỹ thuật Backend Chi tiết (Backend Requirements & System Design)
 
-Chúng ta sẽ ưu tiên sử dụng hệ sinh thái **Firebase (Firestore/Firebase Auth)** kết hợp với **Node.js (Cloud Functions hoặc Express)**.
 
 ---
 
@@ -53,6 +52,13 @@ Chúng ta sẽ sử dụng NoSQL (Firestore). Dưới đây là cấu trúc Coll
 | | `user_id` | String | Tham chiếu tới `Users.id` |
 | | `score` | Number | Điểm số đạt được |
 | | `played_at` | Timestamp | Thời điểm hoàn thành trò chơi |
+| **Quiz_Questions**| `id` | String | Question ID |
+| | `question_text` | String | Nội dung câu hỏi |
+| | `image_url` | String | URL hình ảnh đính kèm (tuỳ chọn) |
+| | `options` | Array[String] | Các lựa chọn (VD: `["A", "B", "C", "D"]`) |
+| | `correct_index` | Number | Vị trí đáp án đúng (VD: `0` tương ứng `A`) |
+| | `explanation` | String | Giải thích kết quả (hiển thị sau khi chọn) |
+| | `category` | String | Chủ đề (VD: `Cyberbullying`, `Scam`) |
 
 ---
 
@@ -75,3 +81,17 @@ Backend cần triển khai các dịch vụ dưới dạng RESTful API hoặc Fi
 - `POST /api/translate`: 
   - **Vấn đề:** Hiện tại Frontend (JS) đang để lộ thẳng Gemini API Key trong source code khi gọi tính năng dịch.
   - **Giải pháp:** Frontend chỉ cần gửi raw text hoặc JSON object chứa text tới endpoint này. Backend sẽ lấy Gemini API Key từ biến môi trường (`.env`), gọi Google Generative AI API lấy bản dịch, rồi trả kết quả về cho Frontend. Điều này giúp ẩn hoàn toàn API Key ở phía Server.
+
+### 4.4. Dịch vụ Quản lý Hồ sơ Mentor (Mentor Profile)
+- `GET /api/mentors/profile`: Lấy thông tin hồ sơ của Mentor (dựa trên token xác thực).
+- `PUT /api/mentors/profile`: 
+  - Cho phép Mentor cập nhật thông tin cá nhân của họ lên Web.
+  - Nhận payload chứa `bio`, `skills_array`, và `availability`.
+  - Cập nhật vào collection `Mentors_Profile` trên Firestore.
+  - *(Lưu ý: Nếu sử dụng Firebase Client SDK trên Frontend, có thể không cần viết API riêng mà chỉ cần cấu hình **Firestore Security Rules** cho phép user có role="mentor" được quyền `update` document của chính họ).*
+
+### 4.5. Dịch vụ Game / Trắc nghiệm (Quiz Management)
+- `GET /api/quiz/questions`: Trả về danh sách câu hỏi cho Mentee (lưu ý: payload trả về **KHÔNG** chứa `correct_index` để tránh việc Mentee gian lận/inspect code).
+- `POST /api/quiz/submit`: Mentee nộp bài (gửi mảng các lựa chọn). Backend tự đối chiếu với `correct_index` trong DB, tính điểm, lưu tự động vào `Quiz_Scores` và trả về kết quả kèm `explanation`.
+- `POST /api/quiz/questions` (và `PUT`, `DELETE`): API nội bộ dành riêng cho **Admin** hoặc **Mentor (được cấp quyền)** dùng để thêm, sửa, xoá các câu hỏi Quiz thông qua một trang giao diện quản trị (Admin/Mentor Dashboard) trên Web. 
+  - *(Lưu ý xử lý hình ảnh: Đối với câu hỏi có hình ảnh, Frontend sẽ upload file ảnh lên **Firebase Storage** trước, sau đó lấy URL trả về để gửi kèm trong payload lưu vào trường `image_url` của API này).*

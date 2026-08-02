@@ -18,5 +18,8 @@ Frontend hiện đang sử dụng LocalStorage để giả lập dữ liệu. D�
    - *Cyberbullying Defense*
    - *Digital Privacy*
 3. **Hệ thống Đặt lịch hẹn (Booking System):** Quản lý trạng thái lịch rảnh của Mentor, đặt lịch tư vấn và tự động tạo/liên kết link Google Meet.
-4. **Trò chơi Tương tác "Spot the Deepfake":** Cho phép người dùng chơi quiz nhận diện AI và lưu trữ kết quả/điểm số lên hệ thống.
-5. **Dịch thuật Đa ngôn ngữ (Translation Proxy):** Tính năng dịch toàn trang (hiện đang gọi thẳng Gemini API từ Frontend, cần chuyển về Backend để bảo mật API Key).
+4. **Quản lý Hồ sơ Mentor (Profile Management):** Cho phép các Mentor tự động cập nhật thông tin cá nhân (Giới thiệu, Kỹ năng, Khung giờ trống) trực tiếp từ giao diện Web.
+5. **Trò chơi Tương tác "Spot the Deepfake" & CMS Quiz:**
+   - **Mentee:** Chơi quiz nhận diện rủi ro mạng/AI, backend tự động chấm điểm và lưu kết quả (cơ chế chống gian lận).
+   - **Admin/Mentor:** Cung cấp CMS (Hệ thống quản trị nội dung) cho phép thêm, sửa, xoá ngân hàng câu hỏi động. Hỗ trợ upload hình ảnh minh họa cho câu hỏi (sử dụng Firebase Storage).
+6. **Dịch thuật Đa ngôn ngữ (Translation Proxy):** Tính năng dịch toàn trang (hiện đang gọi thẳng Gemini API từ Frontend, cần chuyển về Backend để bảo mật API Key).
